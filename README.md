@@ -26,11 +26,3 @@ cd client && npm install
 cd client && ng serve --proxy-config proxy.conf.json
 ```
 
-## Maintainers Notes
-
-To deploy latest version of website:
-
-``` bash
-npm run deploy
-```
-
