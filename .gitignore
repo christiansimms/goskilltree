@@ -8,6 +8,10 @@ test/unit/coverage
 test/e2e/reports
 selenium-debug.log
 
+*.pyc
+.DS_Store
+.dev_appserver.datastore
+
 # Editor directories and files
 .idea
 .vscode
