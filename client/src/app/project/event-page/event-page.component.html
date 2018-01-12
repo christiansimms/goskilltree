@@ -1,0 +1,30 @@
+<h2>History</h2>
+
+<button type="button" class="btn btn-default" (click)="refreshHistory()">Refresh</button>
+<button type="button" class="btn btn-default" (click)="downloadEvents()">Download</button>
+<button type="button" class="btn btn-default" (click)="clearEvents()">Clear</button>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Timestamp</th>
+    <th>Name</th>
+    <th>Project Id</th>
+    <th>What</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let event of events">
+    <td>{{event.id}}</td>
+    <td>{{event.timestamp.toJSON()}}</td>
+    <td>{{event.name}}</td>
+    <td>{{event.project_id}}</td>
+    <td>{{event.shortSummary}} &nbsp;&nbsp; <a href="" (click)="event['showDetails']=!event['showDetails']; false">...</a>
+      <pre *ngIf="event.name==='jshint'">{{event.what.context}}</pre>
+      <pre *ngIf="event['showDetails']">{{event.what | json}}</pre>
+    </td>
+  </tr>
+  </tbody>
+</table>
+

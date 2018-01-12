@@ -1,0 +1,69 @@
+<div *ngIf="! authService.isLoggedIn()" class="text-center">
+  <h1><a routerLink="/login">Login to Start Learning</a></h1>
+</div>
+
+<div *ngIf="localProjects?.length > 0">
+  <h2>Projects You've Started</h2>
+  <table class="table" *ngIf="localProjects?.length > 0">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Progress</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let project of localProjects">
+      <td>{{project.title}}</td>
+      <td>{{project.description}}</td>
+      <td>
+        <div *ngIf="project.current_step <= project.total_steps">{{project.current_step}} / {{project.total_steps}}
+        </div>
+        <div *ngIf="project.current_step > project.total_steps">Completed All {{project.total_steps}} Steps</div>
+      </td>
+      <td>
+        <div *ngIf="authService.isLoggedIn()">
+          <button *ngIf="project.current_step <= project.total_steps" type="button" class="btn btn-default"
+                  (click)="resumeProject(project)">Resume
+          </button>
+          <button *ngIf="project.current_step > project.total_steps" type="button" class="btn btn-default"
+                  (click)="resumeProject(project)">Review
+          </button>
+
+          <button type="button" class="btn btn-default" (click)="restartProject(project)">Restart</button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div *ngIf="localProjects?.length === 0">
+    <em>Start your first project below.</em>
+  </div>
+</div>
+
+<h2>Projects You Can Start</h2>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let project of remoteProjects">
+    <td>{{project.title}}</td>
+    <td>{{project.description}}</td>
+    <td>
+      <div *ngIf="authService.isLoggedIn()">
+        <button type="button" class="btn btn-default" (click)="playRemoteProject(project)">Play Project</button>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<br/><br/>
+<h4>Extras</h4>
+<a routerLink="/myskills">View Your Skill Tree</a>

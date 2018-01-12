@@ -1,0 +1,111 @@
+<p>
+  <a routerLink="/author/{{project?.id}}/edit">Steps</a>:
+
+  <!-- Go to previous link -->
+  &nbsp;
+  <a *ngIf="stepNum>1" routerLink="/author/{{project?.id}}/step/{{stepNum-1}}"> &lt;&lt; </a>
+  <span *ngIf="stepNum===1"> &lt;&lt; </span>
+  &nbsp;
+
+  <!-- All steps -->
+  <span *ngFor="let step of project?.steps | onlyRealStep; let stepIndex = index">
+      <a *ngIf="stepIndex+1!==stepNum" routerLink="/author/{{project.id}}/step/{{stepIndex+1}}">{{stepIndex+1}}</a>
+      <span *ngIf="stepIndex+1===stepNum"><strong>{{stepIndex+1}}</strong></span>
+  </span>
+
+  <!-- Go to next link -->
+  &nbsp;
+  <a *ngIf="stepNum<project?.steps.length-1" routerLink="/author/{{project?.id}}/step/{{stepNum+1}}"> &gt;&gt; </a>
+  <span *ngIf="stepNum===project?.steps.length-1"> &gt;&gt; </span>
+
+  <span class="show-reference-buttons">
+      <button type="button" class="btn btn-default" (click)="doSaveAndPreview()">Save and Preview</button>
+      <button type="button" class="btn btn-default" (click)="doSaveAndPopup()">Save and Popup</button>
+      <button type="button" class="btn btn-default" (click)="doMakeNextStep()">Make Next Step</button>
+
+      <button type="button" class="btn btn-default" (click)="doShowReference()" *ngIf="!showReference">Show Reference
+      </button>
+      <button type="button" class="btn btn-default" (click)="doHideReference()" *ngIf="showReference">Hide Reference
+      </button>
+  </span>
+
+</p>
+
+<div *ngIf="showReference">
+  <app-reference-library [project]="project"></app-reference-library>
+</div>
+
+<h2>{{project?.title}}: Step #{{stepNum}}</h2>
+
+<div class="row">
+  <div class="col-md-4">
+
+    <div style="white-space: pre; color: red">{{authorFeedbackProblems | async}}</div>
+
+    <div *ngIf="step">
+      <!-- This is *ngIf protected, so not created until ready. -->
+      <app-simple-code-mirror-editor [mode]="'gfm'" [text]="step?.description"
+                                     (textChanged)="descriptionWasChanged($event)">
+      </app-simple-code-mirror-editor>
+    </div>
+
+    <h4>Project Plan</h4>
+    <button type="button" class="btn btn-default" (click)="createEmptyTodo()"
+            *ngIf="!fs?.maybeFindFile('db/todo.json')">Create Empty Todo
+    </button>
+    <!-- NOTE: Below if statement is so that app-todo-tree is created with content, so that its ngOnInit has parameters set. -->
+    <div *ngIf="fs?.maybeFindFile('db/todo.json')">
+      <app-todo-tree [todo]="fs?.maybeFindFile('db/todo.json')" [treeChanges]="todoTreeChanges"
+                     [activePlanItemId]="playPlanMgr?.getActivePlanItemId()"></app-todo-tree>
+    </div>
+
+    <div *ngIf="authorPlanMgr?.incompletePlanItem">
+      Active Item: #{{authorPlanMgr.incompletePlanItem.id}}: {{authorPlanMgr.incompletePlanItem.title}}
+      <button type="button" class="btn btn-default" (click)="markIncompletePlanItemAsDone()">Mark as Done</button>
+    </div>
+
+    <h4>Skills</h4>
+    <div *ngFor="let skill of authorPlanMgr?.getActivePlanItem()?.skills">
+      Current Skill: {{skill}}
+    </div>
+    <div *ngFor="let skill of suggestedSkills | async">
+      Suggested: {{skill.id}}
+      <button type="button" class="btn btn-default" (click)="addSkill(skill)">Add Skill</button>
+    </div>
+
+  </div>
+  <div class="col-md-4" [hidden]="!showFileEditor">
+    <!--FILE EDITOR-->
+    <app-cmfile-editor [fileSystem]="fs?.fileSystem"
+                       [currentDisplayedFile]="'sketch.js'" (astChanged)="astWasChanged($event)"></app-cmfile-editor>
+  </div>
+  <div class="col-md-4" [hidden]="!showCodePreview"> <!-- style="padding: 0;" -->
+    <!--PREVIEW-->
+    <iframe name="tutorPreviewTarget" src="about:blank" #iframe
+            frameborder="0" width="100%"
+            height="420px" scrolling="auto"></iframe>
+  </div>
+</div>
+
+<h3>Summary of Changes</h3>
+<div class="row">
+  <div class="col-md-4 old-ast-class">
+    <div style="white-space: pre">{{authorFeedback | async}}</div>
+    <br/>
+    <div *ngFor="let deltaEntry of step?.delta">
+      File: {{deltaEntry.filename}}
+      <div *ngFor="let patch of deltaEntry.diffs">
+        {{patch.op}} {{patch.path}}
+        <pre>{{patch.prettyValue|smartJson}}</pre>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 new-ast-class">
+    <pre>{{debugJsonDelta | async}}</pre>
+  </div>
+  <div class="col-md-4">
+    <h4>Preview of Description</h4>
+    <div class="stepDescription" [innerHTML]="descriptionAsHtml | async"></div>
+  </div>
+</div>
+

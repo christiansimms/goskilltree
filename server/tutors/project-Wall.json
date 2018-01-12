@@ -1,0 +1,604 @@
+{
+  "title": "Wall",
+  "template": "p5js",
+  "steps": [
+    {
+      "description": "",
+      "file_system": [
+        {
+          "contents": "<!DOCTYPE html>\n<html>\n  <head>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.5/p5.min.js\"></script>\n    <script src=\"sketch.js\"></script>\n    <style>canvas { border:1px solid black; }</style>\n  </head>\n  <body>\n    <div id=\"canvasContainer\"></div>\n  </body>\n</html>\n",
+          "name": "index.html"
+        },
+        {
+          "contents": "function draw() {\n}\n",
+          "name": "sketch.js"
+        }
+      ]
+    },
+    {
+      "description": "Let's try to make a wall game. We know it's going to have walls and a player.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add_file",
+              "path": "",
+              "prettyValue": [
+                {
+                  "id": 1,
+                  "title": "Wall game",
+                  "children": [
+                    {
+                      "id": 2,
+                      "title": "Make walls"
+                    },
+                    {
+                      "id": 3,
+                      "title": "Make player"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Make a wall. Start with one, then generalize.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=2/children",
+              "prettyValue": [
+                {
+                  "id": 4,
+                  "title": "Make one wall."
+                },
+                {
+                  "id": 5,
+                  "title": "Make more walls."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Let's figure out how to draw a wall. Click Show Reference to see the available functions. In the \"Draw shapes\" section, you see a few shapes. Let's draw a wall using two rects.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=4/children",
+              "prettyValue": [
+                {
+                  "id": 6,
+                  "title": "Draw top rect"
+                },
+                {
+                  "id": 7,
+                  "title": "Draw bottom rect"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Draw top rect. We still have a blank canvas, so draw something!",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#first",
+              "prettyValue": "rect(0, 0, 10, 50);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=6/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=6/skills",
+              "prettyValue": [
+                "/p5/rect"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "The bottom part of the wall.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#last",
+              "prettyValue": "rect(0, 60, 10, 50);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=7/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=7/skills",
+              "prettyValue": [
+                "/p5/rect"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "We used hard-coded values, but now let's use a built-in constant for height.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function draw/rect() x2",
+              "prettyValue": "rect(0, 60, 10, height - 61);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=5/skills",
+              "prettyValue": [
+                "/p5/height"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Let's make a second wall. But we don't want to copy and paste. So, we could make a function to draw a wall.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=5/children",
+              "prettyValue": [
+                {
+                  "id": 8,
+                  "title": "Make a wall function."
+                },
+                {
+                  "id": 9,
+                  "title": "Use it for first wall."
+                },
+                {
+                  "id": 10,
+                  "title": "Use it for second wall."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Make an empty function named \"wall\", and call it.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "function wall() {}"
+            },
+            {
+              "op": "add",
+              "path": "/function draw/#last",
+              "prettyValue": "wall();"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=8/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=8/skills",
+              "prettyValue": [
+                "/Imperative/Define Function"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Copy the two rect calls to wall().",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function wall/#first",
+              "prettyValue": "rect(0, 0, 10, 50);"
+            },
+            {
+              "op": "add",
+              "path": "/function wall/#last",
+              "prettyValue": "rect(0, 60, 10, height - 61);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Remove the old rect calls from draw.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "delete",
+              "path": "/function draw/rect() x2",
+              "prettyValue": "rect(0, 60, 10, height - 61);"
+            },
+            {
+              "op": "delete",
+              "path": "/function draw/rect()",
+              "prettyValue": "rect(0, 0, 10, 50);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now the fun stuff. We need a parameter to wall. Call it x, and pass in 0.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function wall/params/#first",
+              "prettyValue": "x"
+            },
+            {
+              "op": "replace",
+              "path": "/function draw/wall()",
+              "prettyValue": "wall(0);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now we need to use the parameter. In the first call on rect.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function wall/rect()",
+              "prettyValue": "rect(x, 0, 10, 50);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "And change the second call on rect.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function wall/rect() x2",
+              "prettyValue": "rect(x, 60, 10, height - 61);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Let's test it works. Change the passed in value for x.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function draw/wall()",
+              "prettyValue": "wall(10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=9/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now we can really enjoy our new function, by easily creating another wall. Draw another one at a different location.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#last",
+              "prettyValue": "wall(30);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=10/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Let's animate the walls.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=2/children/#last",
+              "prettyValue": {
+                "id": 11,
+                "title": "Animate walls.",
+                "children": [
+                  {
+                    "id": 12,
+                    "title": "Declare global variable"
+                  },
+                  {
+                    "id": 13,
+                    "title": "Increment it each time"
+                  },
+                  {
+                    "id": 14,
+                    "title": "Use it"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Go ahead.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "let pos = 0;"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=12/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Increment it in draw.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#last",
+              "prettyValue": "pos = pos + 1;"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=13/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Use it in first call to wall.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function draw/wall()",
+              "prettyValue": "wall(pos);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Well, that's ugly. We need to clear the background each time.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#first",
+              "prettyValue": "background(\"white\");"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now make the second wall move.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function draw/wall() x2",
+              "prettyValue": "wall(pos + 30);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=14/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Let's make a player. We can just make it be a rectangle.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=3/children",
+              "prettyValue": [
+                {
+                  "id": 15,
+                  "title": "Draw rect"
+                },
+                {
+                  "id": 16,
+                  "title": "Follow mouse"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Draw the player.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#last",
+              "prettyValue": "rect(10, 10, 10, 10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=15/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Use a variable.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function draw/rect()",
+              "prettyValue": "rect(mouseX, mouseY, 10, 10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=16/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

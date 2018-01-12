@@ -1,0 +1,96 @@
+Major Design Decisions
+
+2 major modes: Author + Play
+Author:
+    for creating projects that are playable
+    only stores deltas (except first step which has initial file system)
+Play:
+    plays back an authored project
+    every step has file system for easy running
+    
+ASTs:
+    everything is centered around ASTs
+    why? so white space does not matter
+    
+Diffing:
+    use jsondiffpatch to compare ASTs
+        nice: you can specify which fields to look at
+        nice: detects array moves
+        for javascript, we USED TO (before vuejs) cache at the statement level
+            so that we don't have to deal w/all ast node types
+            but vuejs has really big statements, so we had to go deeper than statement level
+            for details, see: smartCache
+        smartCache is used by objectHash to unique identify elements in an array
+            it's for array element alignment, NOT for comparing values
+        our "semantic diffs" are a variant of jsonpatch format to record diffs:
+            op: add/delta/replace
+            path: path to element, like: /function draw/line()
+                2 variants:
+                    add: /function draw/#first
+                        this describes a location
+                    replace/delete: /function draw/line()
+                        this describes a specific item
+            prettyValue: text we're adding/replacing/deleting
+            NOT saving value, which is the AST tree for prettyValue
+    we patched jsondiffpatch so that it calls us back when diffs are found
+        we need the complete diff context to generate our semantic diffs
+    to compare user + expected diffs, we have our own super-accurate diff'er
+        giveFeedbackOnDelta(driverStep, userStep)
+        calls matchAstChange(expectPatch, newPatch)
+        calls findFirstDiff(oldAst, newAst)  # actually receives AST's of patches
+        if a diff is found, returns: WrongChange
+        in the end, summarizeWrongChangeJs(WrongChange) or summarizeWrongChangeHtml(WrongChange):
+            tells you the difference in the AST's
+
+Semantic Diffs:
+    A few purposes:
+        make diffs easy to read
+        make diffs easy to maintain -- less brittle when editing changes (git's rebase)
+        guarantees each step is meaningful/semantic, and can be hinted/prompted
+
+Delta format:
+    sample:
+        { filename="index.html", op="add", path="/#first", prettyValue="function draw(){}" }
+        { filename="index.html", op="fileadd" }
+        { filename="index.html", op="filedelete" }
+        { filename="index.html", op="filerename", origfilename="old.html" }
+
+Javascript:
+    using recast + esprima for parsing
+    recast has excellent pretty printer for keeping original formatting
+    
+Html:
+    using parse5 with htmladapter2
+        this is what angular2 uses
+        it's spec-compliant parser
+        HOWEVER, the standard DOM api it comes with is not JSON-compatible
+            e.g., it has parentpointers which are cycles
+            so we always convert to a json data format after parsing
+    sometimes white space is significant, and all html parsers just keep it
+        but we just clear and pretty print white space
+        
+Overall code:
+    parsing
+        parse text to get an AST
+    diff
+        runs jsondiffpatch, which creates semantic diff paths from jsondiffpatch context
+    apply patch
+        read semantic paths and navigate down AST
+    auto prompt
+        reads semantic paths and AST nodes to write English prompts
+        
+Rules of thumb:
+    only one or two lines of changes per step
+        example: to add parameter to function:
+            step 1: add param to definition and caller
+            step 2: use param in definition
+    keep project plans small, not more than 2 or 3 levels deep
+ 
+Happy Path Use Case:
+    start w/empty local db
+    browse remote projects, click one
+    it's downloaded to author database
+    new project created in play database
+    every step, project is sent to server
+    notice:
+        I don't need to sync author projects

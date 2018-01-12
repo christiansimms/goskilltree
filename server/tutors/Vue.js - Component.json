@@ -1,0 +1,260 @@
+{
+  "title": "Vue.js - Component",
+  "description": "Make a clickable component with state using Vue.js",
+  "template": "vuejs",
+  "steps": [
+    {
+      "description": "",
+      "file_system": [
+        {
+          "contents": "<!DOCTYPE html>\n<html>\n<head>\n    <script src=\"https://unpkg.com/vue/dist/vue.js\"></script>\n</head>\n<body>\n<div id=\"app\"></div>\n<script src=\"app.js\"></script>\n</body>\n</html>\n",
+          "name": "index.html"
+        },
+        {
+          "contents": "let vm = new Vue({\n    el: \"#app\"\n});\n",
+          "name": "app.js"
+        }
+      ]
+    },
+    {
+      "description": "Make a reusable display component called counter.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "Vue.component(\"counter\", {\n  template: \"#counter-template\"\n});"
+            }
+          ]
+        },
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/#after div#app",
+              "prettyValue": "<template id=\"counter-template\"></template>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Use the new component.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/div#app/#first",
+              "prettyValue": "<counter></counter>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/template#counter-template/#first",
+              "prettyValue": "<h1>Counter here</h1>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "The component is called \\\"counter\\\", but it doesn't count! Let's add a variable to it to represent a count.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/Vue.component#counter/arguments[1]/properties/#last",
+              "prettyValue": "data: function() {\n  return {\n    count: 0\n  };\n}"
+            }
+          ]
+        },
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/template#counter-template/h1/string",
+              "prettyValue": "Counter here {{count}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Add a button to increment the count.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/template#counter-template/h1/string",
+              "prettyValue": "<button>Counter here {{count}}</button>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Make button handle click.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/template#counter-template/h1/button/attribs/v-on:click",
+              "prettyValue": "increment"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Write the method.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/Vue.component#counter/arguments[1]/properties/#last",
+              "prettyValue": "methods: {\n  increment: function() {\n    this.count += 1;\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now that we have a component, make a second counter.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/div#app/#last",
+              "prettyValue": "<counter></counter>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Add name as input parameter.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/Vue.component#counter/arguments[1]/properties/#after properties[template]",
+              "prettyValue": "props: [\"name\"]"
+            }
+          ]
+        },
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/template#counter-template/h1/button/string",
+              "prettyValue": "Counter {{name}} {{count}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Pass in a value for the name.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/div#app/counter/attribs/name",
+              "prettyValue": "One"
+            },
+            {
+              "op": "add",
+              "path": "/div#app/counter x2/attribs/name",
+              "prettyValue": "Two"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now let's use Vue events so that our child component \"counter\" tells its parent/container that the value has gone up. Every time a counter is incremented, it will send the new counter value up to its parent.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/Vue.component#counter/arguments[1]/properties[methods]/properties[increment]/#last",
+              "prettyValue": "this.$emit(\"update-counter\", this.count);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now that the update-counter event is being sent, let's receive it. The parent of the counter components is our app, and the parent needs to receive the event.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/div#app/counter/attribs/v-on:update-counter",
+              "prettyValue": "updateCounter"
+            }
+          ]
+        },
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/let vm/init/arguments[0]/properties/#last",
+              "prettyValue": "methods: {\n  updateCounter: function(val) {\n    console.log(\"In updateCounter\", val);\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Add it to second button.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/div#app/counter x2/attribs/v-on:update-counter",
+              "prettyValue": "updateCounter"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

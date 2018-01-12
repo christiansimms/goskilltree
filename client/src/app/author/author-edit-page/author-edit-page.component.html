@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <h1>Project: {{project?.title}}</h1>
+    <a href="#" (click)="deleteProject()">Delete Project</a>
+    -
+    <a href="#" (click)="addStepAfter(0)">Add First Step</a>
+    <!--<button type="button" class="btn btn-default" (click)="saveProject()">Save</button>-->
+  </div>
+</div>
+
+<!--<h2>Project Plan</h2>-->
+<div *ngIf="projectPlan">
+  <app-author-summary-project-plan [projectPlan]="projectPlan" [project]="project"></app-author-summary-project-plan>
+</div>
+<!--{{finalFs|json}}-->
+
+<div *ngFor="let step of project?.steps | onlyRealStep; let stepIndex = index">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div>
+        <h2>Step #{{stepIndex+1}}
+          <a routerLink="/author/{{project.id}}/step/{{stepIndex+1}}">(Edit)</a>
+        </h2>
+        <a href="#" (click)="addStepAfter(stepIndex+1)">Add Step After</a>
+        -
+        <a href="#" (click)="deleteStep(stepIndex+1)">Delete Step</a>
+        -
+        <a href="#" (click)="downloadStepFiles(stepIndex+1)">Download File System</a>
+
+        <div [innerHTML]="step.description"></div>
+
+        <h4>Changes</h4>
+        <div *ngFor="let deltaEntry of step?.delta">
+          File: {{deltaEntry.filename}}
+          <div *ngFor="let patch of deltaEntry.diffs; let patchIndex = index">
+            {{patch.op}} {{patch.path}}
+            <a href="#" (click)="moveDeltaxxx(stepIndex+1, step.delta, patchIndex)">(TODOauthor:Move Delta)</a>
+            <pre>{{patch.prettyValue|smartJson}}</pre>
+          </div>
+        </div>
+
+        <h4>Auto Prompt</h4>
+        <div *ngFor="let autoPrompt of stepAutoPrompt[stepIndex]">{{autoPrompt}}</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<pre>{{project | json}}</pre>-->

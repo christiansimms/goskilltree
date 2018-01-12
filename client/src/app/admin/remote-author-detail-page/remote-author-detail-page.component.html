@@ -1,0 +1,50 @@
+<h2>Versions of Remote Project: {{this.projectTitle}}</h2>
+
+<h3>Upload New Version</h3>
+<form>
+
+  <div>
+    <input type="file" (change)="fileSelected($event)" placeholder="Upload file" accept=".json">
+    <br/><br/>
+  </div>
+
+  <!--<button type="button" class="btn btn-primary" (click)="uploadNewVersion()">-->
+  <!--Add New Version-->
+  <!--</button>-->
+
+</form>
+
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Version</th>
+    <th>Created / Updated</th>
+    <th>Steps</th>
+    <th>Size</th>
+    <th>Template</th>
+    <th>Description</th>
+    <th>Remote Id</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let project of remoteProjects">
+    <td><a routerLink="/admin/remote_author/{{project.title}}">{{project.title}}</a></td>
+    <td>{{project.version}}</td>
+    <td>{{project.created_date | date:'short'}}
+      <br/>
+      {{project.updated_date | date:'short'}}
+    </td>
+    <td>{{project.steps.length}}</td>
+    <td>{{showStepsInfo(project.steps)}}</td>
+    <td>{{project.template}}</td>
+    <td>{{project.description}}</td>
+    <td>{{project.id}}</td>
+    <td>
+      <button type="button" class="btn btn-default" (click)="downloadAuthorProject(project.id)">Download</button>
+    </td>
+  </tr>
+  </tbody>
+</table>

@@ -1,0 +1,63 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Center navbar. */
+.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+}
+
+/* Prevent clicking on disabled links in navbar. */
+a.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.warning-message {
+  font-style: italic;
+}
+
+.fixed-width {
+  font-family: Consolas, Lucida Console, monospace;
+}
+
+/* Ast support: */
+.styled-background {
+  background-color: #ff7;
+}
+
+.structuredEditorDiv {
+  border: 1px solid black;
+  margin: 0 10px 0 30px;
+  padding: 5px;
+  background: white;
+}
+
+.old-ast-class .structuredEditorDiv.highlightAstChange {
+  background-color: red;
+}
+
+.new-ast-class .structuredEditorDiv.highlightAstChange {
+  background-color: green;
+}
+
+.stepDescription .CodeMirror {
+  height: auto;
+}
+
+.successStepMessage {
+  padding: 10px;
+  margin: 10px;
+}
+
+/* Turn off lint errors and warnings in jshint based on presence of css class hide-lint-gutter */
+.hide-lint-gutter .CodeMirror-lint-marker-error, .hide-lint-gutter .CodeMirror-lint-marker-warning {
+  display: none;
+}
+
+.show-reference-buttons {
+  margin-left: 2em;
+}

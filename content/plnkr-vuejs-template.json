@@ -1,0 +1,10 @@
+[
+    {
+        "contents": "let vm = new Vue({\n    el: \"#app\"\n});\n", 
+        "name": "app.js"
+    }, 
+    {
+        "contents": "<!DOCTYPE html>\n<html>\n<head>\n    <script src=\"https://unpkg.com/vue/dist/vue.js\"></script>\n</head>\n<body>\n<div id=\"app\"></div>\n<script src=\"app.js\"></script>\n</body>\n</html>\n", 
+        "name": "index.html"
+    }
+]

@@ -1,0 +1,206 @@
+<p>
+  Steps:
+
+  <!-- Go to previous link -->
+  &nbsp;
+  <a *ngIf="stepNum>1" routerLink="/play/{{project?.id}}/step/{{stepNum-1}}"> &lt;&lt; </a>
+  <span *ngIf="stepNum===1"> &lt;&lt; </span>
+  &nbsp;
+
+  <!-- All steps. stepIndex is 0-based but our links are 1-based. -->
+  <span *ngFor="let step of project?.steps; let stepIndex = index">
+      <a *ngIf="stepIndex+1!==stepNum" routerLink="/play/{{project.id}}/step/{{stepIndex+1}}">{{stepIndex+1}}</a>
+      <span *ngIf="stepIndex+1===stepNum"><strong>{{stepIndex+1}}</strong></span>
+  </span>
+
+  <!-- Go to next link -->
+  &nbsp;
+  <a *ngIf="stepNum<project?.steps.length" routerLink="/play/{{project?.id}}/step/{{stepNum+1}}"> &gt;&gt; </a>
+  <span *ngIf="stepNum===project?.steps.length"> &gt;&gt; </span>
+
+  <span class="show-reference-buttons">
+      <button type="button" class="btn btn-default" (click)="doShowReference()" *ngIf="!showReference">Show Reference
+      </button>
+      <button type="button" class="btn btn-default" (click)="doHideReference()" *ngIf="showReference">Hide Reference
+      </button>
+  </span>
+
+</p>
+
+<div *ngIf="showReference">
+  <app-reference-library [project]="project"></app-reference-library>
+</div>
+
+
+<h2>{{project?.title}}: Step #{{stepNum}}</h2>
+
+<div class="row">
+  <div class="col-md-4">
+    <!-- MAIN CONTENT -->
+    <div class="stepDescription" [innerHTML]="driverStepDescriptionAsHtml | async"></div>
+
+
+    <div *ngIf="!canAdvance && isLatestStep">
+      <div *ngIf="playPlanMgr?.isProjectUpdateStep && !messAroundMode" class="text-center">
+        <button type="button" class="btn btn-default" (click)="doTypeForMe(false)">Update Project Plan</button>
+      </div>
+      <div *ngIf="!playPlanMgr?.isProjectUpdateStep && !messAroundMode">
+        <br/>
+        <h4>Feedback</h4>
+        <div *ngIf="codingErrors.length>0">
+          <!-- There are errors, maybe show them. -->
+          <div *ngIf="showLintErrors">
+            You've got syntax issues to fix before I can check what you're doing:
+            <ul>
+              <li *ngFor="let codingError of codingErrors">{{codingError}}</li>
+            </ul>
+          </div>
+          <div *ngIf="! showLintErrors">
+            Letting you get stuff done...
+          </div>
+        </div>
+        <div *ngIf="codingErrors.length===0">
+          <div>{{feedback}}</div>
+        </div>
+
+        <br/>
+        <br/>
+
+        <!-- Help choices -->
+        <div *ngIf="playService.hintLevel === 0">
+          <!--<button type="button" class="btn btn-default" (click)="doSaveAndPreview()">Save and Preview</button>-->
+          <button type="button" class="btn btn-default" (click)="playService.doHelp()">Help</button>
+        </div>
+        <div *ngIf="playService.hintLevel > 0">
+          <h4>Hint &nbsp;<a href="#" (click)="playService.hideHelp()" class="small">(hide)</a></h4>
+          <div *ngFor="let autoPrompt of autoPromptList">{{autoPrompt}}</div>
+
+          <div *ngIf="playService.hintLevel === 1">
+            <button type="button" class="btn btn-default" (click)="playService.doMoreHints()">Another Hint</button>
+            <button type="button" class="btn btn-default" (click)="doResetThisStep()">Reset This Step</button>
+          </div>
+          <div *ngIf="playService.hintLevel > 1">
+
+            <h4>Another Hint &nbsp;<a href="#" (click)="playService.hideMoreHints()" class="small">(hide)</a></h4>
+            <div *ngFor="let deltaEntry of driverStep?.delta | noProjectPlanStep">
+              <div *ngFor="let patch of deltaEntry.diffs">
+                <div *ngIf="patch.op === 'add' || patch.op === 'replace'">
+                  <p>In file {{deltaEntry.filename}} you should type:</p>
+                  <pre>{{patch.prettyValue}}</pre>
+                </div>
+                <div *ngIf="patch.op === 'delete'">
+                  <p>In file {{deltaEntry.filename}} please remove it.</p>  <!-- TODOfuture: say line numbers -->
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-default" (click)="doTypeForMe(true)">Type For Me</button>
+            <button type="button" class="btn btn-default" (click)="doResetThisStep()">Reset This Step</button>
+
+          </div>
+        </div>
+
+      </div>
+      <div *ngIf="messAroundMode">
+        <button type="button" class="btn btn-default" (click)="doResetThisStep()">Reset This Step</button>
+      </div>
+    </div>
+
+    <div *ngIf="canAdvance && isLatestStep" class="text-center">
+
+      <br/>
+      <br/>
+      <div *ngIf="isLastStepInAuthorProject" class="bg-success successStepMessage">
+        <div>
+          Congratulations, the tutorial is complete.
+        </div>
+        <br/><br/>
+        <button type="button" (click)="doGoHome()" class="btn btn-default">Go Back Home</button>
+        <button type="button" (click)="doReviewDoneProject()" class="btn btn-default">Review</button>
+      </div>
+      <div *ngIf="!isLastStepInAuthorProject" class="bg-success successStepMessage">
+        <div *ngIf="playPlanMgr?.isProjectUpdateStep">
+          Great, the project plan has been updated.
+        </div>
+        <div *ngIf="!playPlanMgr?.isProjectUpdateStep">
+          Great, you've completed this step!
+        </div>
+        <br/><br/>
+        <button type="button" (click)="advance()" class="btn btn-default"
+                [disabled]="! canAdvance">
+          Next
+        </button>
+      </div>
+
+    </div>
+
+    <div *ngIf="! isLatestStep">
+      <div class="bg-success successStepMessage text-center">
+        You've already completed this step.
+        <button *ngIf="! programIsRunning" type="button" class="btn btn-default"
+                (click)="runThisStep()">Run Program
+        </button>
+      </div>
+    </div>
+
+
+    <br/>
+    <h4>Project Plan</h4>
+    <app-todo-tree [todo]="fs?.maybeFindFile('db/todo.json')" [treeChanges]="null" (click)="doClickProjectPlan()"
+                   [activePlanItemId]="playPlanMgr?.getActivePlanItemId()"></app-todo-tree>
+  </div>
+  <div class="col-md-4" [hidden]="!showFileEditor" [class.hide-lint-gutter]="!showLintErrors">
+    <!--FILE EDITOR-->
+    <app-cmfile-editor #fileEditor [fileSystem]="fs?.fileSystem"
+                       [currentDisplayedFile]="'sketch.js'"
+                       (cursorActivityEvent)="cursorActivityEventCB($event)"
+                       (beforeChangeEvent)="beforeChangeEventCB($event)"
+                       (astChanged)="astWasChanged($event)"></app-cmfile-editor>
+    <div>
+      <br/>
+      <button *ngIf="!showLintErrors && codingErrors.length>0" type="button" class="btn btn-default center-block"
+              (click)="checkMyWork()">Show Errors
+      </button>
+      <div *ngIf="showLintErrors && codingErrors.length>0">
+        You've got syntax issues to fix before I can check what you're doing:
+        <ul>
+          <li *ngFor="let codingError of codingErrors">{{codingError}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4" [hidden]="!showCodePreview"> <!-- style="padding: 0;" -->
+
+    <!--PREVIEW-->
+    <div *ngIf="! programIsRunning">
+      <div class="warning-message text-center">
+        Program is not yet running.
+        <button type="button" class="btn btn-default"
+                (click)="runThisStep()">Run Program
+        </button>
+      </div>
+    </div>
+
+    <iframe name="tutorPreviewTarget" src="about:blank" #iframe
+            frameborder="0" width="100%"
+            height="620px" scrolling="auto"></iframe>  <!-- TODOfuture: changed f/420px so we can see console -->
+  </div>
+</div>
+
+<!--suppress JSUnresolvedVariable -->
+<div *ngIf="environment.debugAst">
+  <h3>DEBUG Changes</h3>
+  <div class="row">
+    <div class="col-md-6 old-ast-class">
+      <div *ngFor="let deltaEntry of step?.delta">
+        File: {{deltaEntry.filename}}
+        <div *ngFor="let patch of deltaEntry.diffs">
+          {{patch.op}} {{patch.path}}
+          <pre>{{patch.prettyValue}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 new-ast-class">
+      <pre>{{debugJsonDelta | async}}</pre>
+    </div>
+  </div>
+</div>

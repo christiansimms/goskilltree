@@ -1,0 +1,14 @@
+{
+  "/api": {
+    "target": "http://localhost:6565",
+    "secure": false
+  },
+  "/preview": {
+    "target": "http://localhost:6565",
+    "secure": false
+  },
+  "/session_preview": {
+    "target": "http://localhost:6565",
+    "secure": false
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "template": "blank",
+  "title": "JavaScript - Intro",
+  "steps": [
+    {
+      "description": "",
+      "file_system": [
+        {
+          "contents": "<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>\n<script src=\"app.js\"></script>\n</body>\n</html>\n",
+          "name": "index.html"
+        },
+        {
+          "contents": "",
+          "name": "app.js"
+        }
+      ]
+    },
+    {
+      "description": "We will run through the basics of JavaScript.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add_file",
+              "path": "",
+              "prettyValue": [
+                {
+                  "id": 1,
+                  "title": "Hello, World"
+                },
+                {
+                  "id": 2,
+                  "title": "Print a Number"
+                },
+                {
+                  "id": 5,
+                  "title": "Make a Variable"
+                },
+                {
+                  "id": 3,
+                  "title": "Square It"
+                },
+                {
+                  "id": 4,
+                  "title": "Make a Function"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Say hello world. Call console.log.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "console.log(\"Hi\");"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=1/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now let's print a number instead.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/console.log()",
+              "prettyValue": "console.log(42);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=2/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now let's declare a variable named \"x\" and set it to 5.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "let x = 5;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now let's use it!",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/console.log()",
+              "prettyValue": "console.log(x);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=5/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now let's square our variable. Just multiply it by itself.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#after let x",
+              "prettyValue": "x = x * x;"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=3/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Create a simple function called \"square\". It will take a parameter \"x\". To start out, make it return \"x\" also.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "function square(x) {\n  return x;\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Make it return its parameter squared.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function square/return",
+              "prettyValue": "return x * x;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now call it.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#last",
+              "prettyValue": "let y = square(20);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Print it.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#last",
+              "prettyValue": "console.log(y);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=4/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "title": "p5.js - Intro",
+  "description": "Make a rectangle follow the mouse using p5.js",
+  "template": "p5js",
+  "tags": [
+    "javascript",
+    "intro"
+  ],
+  "steps": [
+    {
+      "description": "",
+      "file_system": [
+        {
+          "contents": "<!DOCTYPE html>\n<html>\n  <head>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.5/p5.min.js\"></script>\n    <script src=\"sketch.js\"></script>\n    <style>canvas { border:1px solid black; }</style>\n  </head>\n  <body>\n    <div id=\"canvasContainer\"></div>\n  </body>\n</html>\n",
+          "name": "index.html"
+        },
+        {
+          "contents": "function draw() {\n}\n",
+          "name": "sketch.js"
+        }
+      ]
+    },
+    {
+      "description": "This little project will make a rectangle follow our mouse. We'll break this down into two steps: first we'll draw a rectangle, then we'll make it move and follow the mouse around.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add_file",
+              "path": "",
+              "prettyValue": [
+                {
+                  "id": 1,
+                  "title": "Project to make moving rectangle",
+                  "children": [
+                    {
+                      "id": 2,
+                      "title": "Draw a rectangle"
+                    },
+                    {
+                      "id": 3,
+                      "title": "Make it move"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Draw a small rectangle at (x, y) of (0, 0) with (width, height) of (10, 10), by calling this function:\n\n`rect(x, y, width, height)`\n\nSince in a further step we will be reacting to user input, we will put our code inside the draw() function.\n",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#first",
+              "prettyValue": "rect(0, 0, 10, 10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=2/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=2/skills",
+              "prettyValue": [
+                "/p5/rect"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Draw another rectangle, but this time we want it to follow the mouse.\nUse the \"special\" p5.js variables mouseX and mouseY in the x and y parameters,\nand again make the rectangle be of size (10, 10).\n",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#last",
+              "prettyValue": "rect(mouseX, mouseY, 10, 10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=3/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=3/skills",
+              "prettyValue": [
+                "/p5/rect",
+                "/p5/mouseX",
+                "/p5/mouseY"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "If you move the mouse across the preview on the right, you'll see that it leaves a trail of rectangles. That doesn't look good.\n\nLet's add this issue to our plan, and then fix it.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=1/children/#last",
+              "prettyValue": {
+                "id": 4,
+                "title": "Fix bugs",
+                "children": [
+                  {
+                    "id": 5,
+                    "title": "Bug: trail of rectangles"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "If you move the mouse across the preview on the right, you'll see that it leaves a trail of rectangles.\nLet's get rid of that trail. To clear the entire picture, call the following function with\nthe color 'white' (in quotes) by calling:\n\n`background(color)`\n",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#first",
+              "prettyValue": "background(\"white\");"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=5/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=5/skills",
+              "prettyValue": [
+                "/p5/background"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "I think it's hard to see the rectangle as it follows our pointer. Let's file a bug on that!",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=4/children/#last",
+              "prettyValue": {
+                "id": 6,
+                "title": "Bug: hard to see rectangle"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "So that our rectangle is easier to see, let's change the background to blue.\n",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function draw/background()",
+              "prettyValue": "background(\"blue\");"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=6/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=6/skills",
+              "prettyValue": [
+                "/p5/background"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "I found another bug. It's silly that we still have the initial rectangle just sitting in the top left corner.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=4/children/#last",
+              "prettyValue": {
+                "id": 7,
+                "title": "Bug: get rid of initial rectangle"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "It's silly that we still have the initial rectangle just sitting in the top left corner.\nLet's get rid of it by deleting the line that draws it.\n",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "delete",
+              "path": "/function draw/rect()",
+              "prettyValue": "rect(0, 0, 10, 10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=7/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

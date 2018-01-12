@@ -1,0 +1,116 @@
+<h2>Play Projects</h2>
+<ul>
+  <li *ngFor="let project of playProjects">{{project.title}}
+    (<a href="#" (click)="deletePlayProject(project)">Delete</a>)
+    <button type="button" class="btn btn-default" (click)="downloadPlayProject(project.id)">Download</button>
+    <ul>
+      <li *ngFor="let step of project.steps; let stepIndex = index">
+        <a routerLink="/play/{{project.id}}/step/{{stepIndex+1}}">{{stepIndex+1}}</a>
+    </ul>
+  </li>
+</ul>
+
+<h2>Author Projects</h2>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Version</th>
+    <th>Description</th>
+    <th>Tags</th>
+    <th>Remote Id</th>
+    <th>Steps</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let project of authors">
+    <td>{{project.title}}</td>
+    <td>{{project.version}}</td>
+    <td>{{project.description}}</td>
+    <td>{{project.tags}}</td>
+    <td>{{project.server_project_id}}</td>
+    <td>
+      {{project.steps.length-1}} Steps<br/>
+    </td>
+    <td>
+      <a routerLink="/author/{{project.id}}/edit">Edit</a>
+      <button type="button" class="btn btn-default" (click)="playLocalAuthorProject(project.id)">Play Project</button>
+      <span *ngIf="project.version">
+          (no upload)
+      </span>
+      <span *ngIf="! project.version">
+          <button type="button" class="btn btn-default" (click)="uploadAuthorProject(project.id)">Upload</button>
+      </span>
+      <button type="button" class="btn btn-default" (click)="downloadAuthorProject(project.id)">Download</button>
+      <button type="button" class="btn btn-default" (click)="copyAuthorProject(project.id)">Copy</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<p>
+  Note: (no upload) happens for existing project, you need to upload the json on the remote management page instead.
+</p>
+
+<h2>Remote Projects</h2>
+<a routerLink="/admin/remote_author">Manage Remote Author Projects</a>
+<button type="button" class="btn btn-default btn-xs" (click)="downloadRemoteAuthorProjects()">
+  Download All Remote Author Projects
+</button>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Version</th>
+    <th>Description</th>
+    <!--<th>Tags</th>-->
+    <th>Remote Id</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let project of remoteProjects">
+    <td>{{project.title}}</td>
+    <td>{{project.version}}</td>
+    <td>{{project.description}}</td>
+    <!--<td>{{project.tags}}</td>-->
+    <td>{{project.id}}</td>
+    <td>
+      <button type="button" class="btn btn-default" (click)="playRemoteProject(project)">Play Project</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<form (ngSubmit)="startProject()">
+  <label for="projectName">Title</label>
+  <input type="text" id="projectName"
+         required
+         [(ngModel)]="newProject.title" name="title"
+  >
+  Template:
+  <select name="role" [(ngModel)]="newProject.template" required>
+    <option *ngFor="let template of templates" [value]="template">
+      {{template}}
+    </option>
+  </select>
+  <button type="submit" class="btn btn-default">Start Project</button>
+</form>
+
+<br/>
+
+<p>
+  <a routerLink="/event">My History</a>
+</p>
+
+<p>
+  <a routerLink="/project/testast">Test Ast</a>
+</p>
+
+
+<p>
+  You are logged in as: {{authService.getCurrentUser() | json}}
+</p>
+

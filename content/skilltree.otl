@@ -1,0 +1,83 @@
+p5
+	shape  [display_only]
+		2d  [display_only]
+			rect
+			line
+			ellipse
+		3d  [display_only]
+			plane
+			box
+			sphere
+	color  [display_only]
+		setting  [display_only]
+			background
+			fill
+			noFill
+			clear
+	event  [display_only]
+		mouse  [display_only]
+			mouseX
+			mouseY
+			mouseIsPressed
+	environment  [display_only]
+		width
+		height
+		frameRate
+		save
+
+Game
+	Simple Game  [display_only]
+		User Input
+		Animation
+		Points
+		Levels
+
+Vue
+	Component
+		Create
+		Use
+		Add Content
+		Add State
+		Add Method
+		Add Input
+	Event
+		Send
+		Receive
+	Directive
+		v-if
+		v-for
+		v-on:event
+		v-model
+
+Paradigm  [display_only]
+	Imperative
+		Sequence
+		Selection
+		Repetition
+		Variable
+		Data Structure
+		Call Function
+		Define Function
+	OOP
+		Class
+		Object
+		Attribute
+		Method
+		Object Composition
+		Inheritance
+		Delegation
+	Markup
+		Outline
+		Elements
+		Attributes
+		Composition
+		Entities
+		Forms
+	Event
+	Async
+	State Machine
+	Graphics
+	Logic
+	Functional
+	Grammar
+

@@ -1,0 +1,26 @@
+[
+    {
+        "contents": "System.config({\n  //use typescript for compilation\n  transpiler: 'typescript',\n  //typescript compiler options\n  typescriptOptions: {\n    emitDecoratorMetadata: true\n  },\n  paths: {\n    'npm:': 'https://unpkg.com/'\n  },\n  //map tells the System loader where to look for things\n  map: {\n    \n    'app': './src',\n    \n    '@angular/core': 'npm:@angular/core/bundles/core.umd.js',\n    '@angular/common': 'npm:@angular/common/bundles/common.umd.js',\n    '@angular/compiler': 'npm:@angular/compiler/bundles/compiler.umd.js',\n    '@angular/platform-browser': 'npm:@angular/platform-browser/bundles/platform-browser.umd.js',\n    '@angular/platform-browser-dynamic': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',\n    '@angular/http': 'npm:@angular/http/bundles/http.umd.js',\n    '@angular/router': 'npm:@angular/router/bundles/router.umd.js',\n    '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',\n    \n    '@angular/core/testing': 'npm:@angular/core/bundles/core-testing.umd.js',\n    '@angular/common/testing': 'npm:@angular/common/bundles/common-testing.umd.js',\n    '@angular/compiler/testing': 'npm:@angular/compiler/bundles/compiler-testing.umd.js',\n    '@angular/platform-browser/testing': 'npm:@angular/platform-browser/bundles/platform-browser-testing.umd.js',\n    '@angular/platform-browser-dynamic/testing': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',\n    '@angular/http/testing': 'npm:@angular/http/bundles/http-testing.umd.js',\n    '@angular/router/testing': 'npm:@angular/router/bundles/router-testing.umd.js',\n    \n    'rxjs': 'npm:rxjs',\n    'typescript': 'npm:typescript@2.0.2/lib/typescript.js'\n  },\n  //packages defines our app package\n  packages: {\n    app: {\n      main: './main.ts',\n      defaultExtension: 'ts'\n    },\n    rxjs: {\n      defaultExtension: 'js'\n    }\n  }\n});\n",
+        "name": "config.js"
+    },
+    {
+        "contents": "<!DOCTYPE html>\n<html>\n\n  <head>\n    <base href=\".\" />\n    <title>angular2 playground</title>\n    <link rel=\"stylesheet\" href=\"style.css\" />\n    <script src=\"https://unpkg.com/zone.js/dist/zone.js\"></script>\n    <script src=\"https://unpkg.com/zone.js/dist/long-stack-trace-zone.js\"></script>\n    <script src=\"https://unpkg.com/reflect-metadata@0.1.3/Reflect.js\"></script>\n    <script src=\"https://unpkg.com/systemjs@0.19.31/dist/system.js\"></script>\n    <script src=\"config.js\"></script>\n    <script>\n    System.import('app')\n      .catch(console.error.bind(console));\n  </script>\n  </head>\n\n  <body>\n    <my-app>\n    loading...\n  </my-app>\n  </body>\n\n</html>\n\n",
+        "name": "index.html"
+    },
+    {
+        "contents": "### Angular2 Starter Plunker - Typescript - RC.0\n\nA simple plunker demonstrating Angular2 usage:\n- Uses SystemJS + TypeScript to compile on the fly\n- Includes binding, directives, http, pipes, and DI usage.\n\nFor opening \n",
+        "name": "README.md"
+    },
+    {
+        "contents": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'my-app',\n  template: `<h1>My First Angular App</h1>\n`\n})\nexport class App {\n}\n\n",
+        "name": "src/app.ts"
+    },
+    {
+        "contents": "//main entry point\nimport {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\nimport {platformBrowserDynamic} from '@angular/platform-browser-dynamic';\nimport {App} from './app';\n\n@NgModule({\n  imports: [ BrowserModule ],\n  declarations: [ App,\n ],\n  bootstrap: [ App ]\n})\nexport class AppModule {}\n\nplatformBrowserDynamic().bootstrapModule(AppModule)\n",
+        "name": "src/main.ts"
+    },
+    {
+        "contents": "/* Styles go here */\n\n\n",
+        "name": "style.css"
+    }
+]

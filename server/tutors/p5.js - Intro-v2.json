@@ -1,0 +1,293 @@
+{
+  "updated_date": "2017-05-19T22:33:27.543830",
+  "description": "Make a rectangle follow the mouse using p5.js",
+  "title": "p5.js - Intro",
+  "tags": [
+    "javascript",
+    "intro"
+  ],
+  "version": 1,
+  "steps": [
+    {
+      "description": "",
+      "file_system": [
+        {
+          "name": "index.html",
+          "contents": "<!DOCTYPE html>\n<html>\n  <head>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.5/p5.min.js\"></script>\n    <script src=\"sketch.js\"></script>\n    <style>canvas { border:1px solid black; }</style>\n  </head>\n  <body>\n    <div id=\"canvasContainer\"></div>\n  </body>\n</html>\n"
+        },
+        {
+          "name": "sketch.js",
+          "contents": "function draw() {\n}\n"
+        }
+      ]
+    },
+    {
+      "description": "This little project will make a rectangle follow our mouse. We will use the [p5.js](http://p5js.org) JavaScript library to help us. p5.js makes it easy to make simple games and draw shapes using JavaScript.\n\nThe way p5.js works is -- it draws everything onto an html element called a `canvas`. A canvas is just a 2-dimensional grid of pixels. Each pixel, or dot, is at a certain row and column, called x and y respectively.\n\nFor this project, we'll break our work down into two steps: first we'll draw a rectangle, then we'll make it move and follow the mouse around.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add_file",
+              "path": "",
+              "prettyValue": [
+                {
+                  "id": 1,
+                  "children": [
+                    {
+                      "id": 2,
+                      "title": "Draw a rectangle"
+                    },
+                    {
+                      "id": 3,
+                      "title": "Make it move"
+                    }
+                  ],
+                  "title": "Project to make moving rectangle"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "We're starting with a really simple task: draw a small rectangle in the upper-left hand corner, and make its width and height be 10. Or another way of saying the same thing: we want to draw a rectangle at coordinate (x, y) of (0, 0) with width and height of 10.\n\nIf you click the Show Reference button above, you will see under the \"Draw shapes:\" section this function:\n\n`rect(x, y, w, h)`\n\n(Yes, w and h stand for width and height, respectively.)\n\nSince we're using p5.js, we want to put our drawing code in a function called `draw`. This function is called every time p5.js wants to draw or refresh the canvas. To help you start, I made an empty `draw` function.\n\nNow let's draw the rectangle at (0, 0) with width and height 10. In the `draw` function, we need to call the `rect` function.\n",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#first",
+              "prettyValue": "rect(0, 0, 10, 10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=2/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=2/skills",
+              "prettyValue": [
+                "/p5/rect"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Great, we have a rectangle. But it's just sitting there.\n\nLet's draw a second rectangle after our first one, but this time we want it to follow the mouse. p5.js makes it really easy to follow the mouse -- we can use the \"special\" p5.js variables `mouseX` and `mouseY` for the `x` and `y` parameters, respectively.\n\nWe again want the width and height to be 10.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#last",
+              "prettyValue": "rect(mouseX, mouseY, 10, 10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=3/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=3/skills",
+              "prettyValue": [
+                "/p5/rect",
+                "/p5/mouseX",
+                "/p5/mouseY"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Great, we've got a rectangle that follows our mouse around.\n\nHowever, if you move the mouse across the preview on the right, you'll see that it leaves a trail of rectangles. That doesn't look good.\n\nLet's add this issue to our plan, and then fix it.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=1/children/#last",
+              "prettyValue": {
+                "id": 4,
+                "children": [
+                  {
+                    "id": 5,
+                    "title": "Bug: trail of rectangles"
+                  }
+                ],
+                "title": "Fix bugs"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "If you move the mouse across the preview on the right, you'll see that it leaves a trail of rectangles. Why?\n\nSeveral times a second, p5.js calls our `draw` function. And it just keeps drawing rectangles. p5.js doesn't automatically clear out old rectangles, it just keeps adding more.\n\nBut we can fix this. The easiest way is to clear the entire canvas at the beginning of our `draw` function. That way, every time `draw` is called, we will clear the canvas and then draw a rectangle.\n\nIf we click Show Reference above, in section \"Change colors\", we see:\n\n`background(color)`\n\nThis function wipes the entire canvas with the given color. Color can be a string like \"black\" or \"white\".\n\nLet's call function `background` with color \"white\", at the beginning of our function `draw`.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#first",
+              "prettyValue": "background(\"white\");"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=5/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=5/skills",
+              "prettyValue": [
+                "/p5/background"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "I think it's hard to see the rectangle as it follows our pointer. The rectangle is just a thin line with whitespace inside. Let's file a bug on that!",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=4/children/#last",
+              "prettyValue": {
+                "id": 6,
+                "title": "Bug: hard to see rectangle"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now we want to fix the bug \"hard to see rectangle\". How can we make it easier to see?\n\nThere are lots of choices -- change the color of the rectangle, change its size, etc. But we're lazy, so I think the easiest fix is to change the background color to blue. All we have to do is change one word on one line.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function draw/background()",
+              "prettyValue": "background(\"blue\");"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=6/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=6/skills",
+              "prettyValue": [
+                "/p5/background"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "I found another bug. It's silly that we still have the initial rectangle just sitting in the top left corner.\n\nI bet you already noticed it. But it's OK -- writing code is all about writing, editing and reworking code until it does what you want.\n\nLet's file this bug.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=4/children/#last",
+              "prettyValue": {
+                "id": 7,
+                "title": "Bug: get rid of initial rectangle"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Let's fix the bug where the first rectangle we made is just sitting there in the top left corner.\n\nLet's get rid of it by deleting the line that draws it.\n",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "delete",
+              "path": "/function draw/rect()",
+              "prettyValue": "rect(0, 0, 10, 10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=7/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "We finished the project! We now have a little rectangle that follows our pointer, on a nice blue background.\n\nAnd it only took 2 lines of code. But it took us 10 steps to complete, because we are learning p5.js. If we had to do it again, we would be able to do it a lot faster.\n\nOnce you click the button Update Project Plan, you can play around with your code and change it any way you like.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=4/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=1/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "template": "p5js",
+  "created_date": "2017-05-19T22:33:27.543820",
+  "owner": "christian.simms@gmail.com"
+}

@@ -1,0 +1,415 @@
+{
+  "title": "p5.js - Paint",
+  "description": "Make a paint program using p5.js",
+  "template": "p5js",
+  "steps": [
+    {
+      "description": "",
+      "file_system": [
+        {
+          "contents": "<!DOCTYPE html>\n<html>\n  <head>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.5/p5.min.js\"></script>\n    <script src=\"sketch.js\"></script>\n    <style>canvas { border:1px solid black; }</style>\n  </head>\n  <body>\n    <div id=\"canvasContainer\"></div>\n  </body>\n</html>\n",
+          "name": "index.html"
+        },
+        {
+          "contents": "function draw() {\n}\n",
+          "name": "sketch.js"
+        }
+      ]
+    },
+    {
+      "description": "Let's make a paint program, where you draw with your mouse.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add_file",
+              "path": "",
+              "prettyValue": [
+                {
+                  "id": 1,
+                  "title": "Draw using mouse"
+                },
+                {
+                  "id": 2,
+                  "title": "Change color"
+                },
+                {
+                  "id": 3,
+                  "title": "Save image"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Let's break this down.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=1/children",
+              "prettyValue": [
+                {
+                  "id": 4,
+                  "title": "Draw wherever the mouse is"
+                },
+                {
+                  "id": 5,
+                  "title": "Only draw when clicked"
+                },
+                {
+                  "id": 6,
+                  "title": "Test"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Draw a circle where the mouse is, with width and height of 10.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#first",
+              "prettyValue": "ellipse(mouseX, mouseY, 10, 10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=4/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Let's change the code to only draw the circle when the mouse is pressed. You'll see an event for this in the Reference section.\n\nWe want to embed our call on ellipse() inside an if statement -- if the mouse is pressed, then draw an ellipse.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function draw/ellipse()",
+              "prettyValue": "if (mouseIsPressed) {\n  ellipse(mouseX, mouseY, 10, 10);\n}"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=5/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "You'll notice that if you hold the mouse down and draw around, there is a significant gap between the circles it draws. That's because we've lowered the frame rate to 5 per second, to help with testing.\n\nBut now let's bump it up to 60 per second. To do this, at the beginning of the file create a function named setup(), which takes no parameters. It should call the p5.js function frameRate with 60.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "function setup() {\n  frameRate(60);\n}"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=6/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "To make this be a real paint program, we need to let you change the color. We'll let you change to a few colors.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=2/children",
+              "prettyValue": [
+                {
+                  "id": 10,
+                  "title": "Color Setup"
+                },
+                {
+                  "id": 7,
+                  "title": "Change to red"
+                },
+                {
+                  "id": 9,
+                  "title": "Change to green"
+                },
+                {
+                  "id": 8,
+                  "title": "Change to blue"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Before we can let the user change color, the program needs to track what the current color is. In a small JavaScript program like this, a global variable is the perfect solution.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=10/children",
+              "prettyValue": [
+                {
+                  "id": 11,
+                  "title": "Declare global variable"
+                },
+                {
+                  "id": 12,
+                  "title": "Use global variable"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Declare a variable named \"paint\" at the top of the file. And in the declaration, set its value to the string \"red\".",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "let paint = \"red\";"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=11/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now we want to use that color when we draw. Right before the call to ellipse(), we want to tell p5.js to \"fill\" (hint!) what it's about to draw with the color stored in variable paint.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/if/#first",
+              "prettyValue": "fill(paint);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=12/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "I think I found a problem! It's basically working, but if you drag a lot, you notice there's a black line drawn around every circle. We should fix that.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=10/children/#last",
+              "prettyValue": {
+                "id": 13,
+                "title": "Fix border"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "In graphics terminology, the border around a shape is called the stroke. We want to tell p5.js *not* to *stroke* (hint!) right before it calls ellipse().",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/if/#after fill()",
+              "prettyValue": "noStroke();"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=13/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Make a button.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/#first",
+              "prettyValue": "<button>Red</button>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Add a click event to it.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/button/attribs/onclick",
+              "prettyValue": "paint='red'"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=7/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Add a green button.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/#after button",
+              "prettyValue": "<button onclick=\"paint='green'\">Green</button>"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=9/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Add a blue button.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/#after button x2",
+              "prettyValue": "<button onclick=\"paint='blue'\">Blue</button>"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=8/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Saving is really easy in p5.js.\n\nAll you have to do is make a button which calls a function save(), without any parameters. How easy is that?",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/#after button x3",
+              "prettyValue": "<button onclick=\"save()\">Save</button>"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=3/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

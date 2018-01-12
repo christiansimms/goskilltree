@@ -1,0 +1,440 @@
+{
+  "updated_date": "2017-05-19T22:33:42.943270",
+  "description": "Make a paint program using p5.js",
+  "title": "p5.js - Paint",
+  "tags": [],
+  "version": 1,
+  "steps": [
+    {
+      "description": "",
+      "file_system": [
+        {
+          "name": "index.html",
+          "contents": "<!DOCTYPE html>\n<html>\n  <head>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.5/p5.min.js\"></script>\n    <script src=\"sketch.js\"></script>\n    <style>canvas { border:1px solid black; }</style>\n  </head>\n  <body>\n    <div id=\"canvasContainer\"></div>\n  </body>\n</html>\n"
+        },
+        {
+          "name": "sketch.js",
+          "contents": "function draw() {\n}\n"
+        }
+      ]
+    },
+    {
+      "description": "Let's make a paint program, where you draw with your mouse.\n\nDoes this sound difficult? Well, the first thing we do with a difficult problem is break it down into smaller problems, and then solve each one at a time.\n\nLet's break this down into three things we need to figure out:\n* how to draw using the mouse (or touch if you're on mobile)\n* how to change the color you're drawing\n* how to save your image",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add_file",
+              "path": "",
+              "prettyValue": [
+                {
+                  "id": 1,
+                  "title": "Draw using mouse"
+                },
+                {
+                  "id": 2,
+                  "title": "Change color"
+                },
+                {
+                  "id": 3,
+                  "title": "Save image"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Draw using mouse -- since we're still learning p5.js, let's break this problem down into 3 tasks:\n\n* Figure out how to draw wherever your mouse is\n* Only draw when you have the button pressed down\n* Test that it's working and we don't have any bugs",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=1/children",
+              "prettyValue": [
+                {
+                  "id": 4,
+                  "title": "Draw wherever the mouse is"
+                },
+                {
+                  "id": 5,
+                  "title": "Only draw when clicked"
+                },
+                {
+                  "id": 6,
+                  "title": "Test"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Enough project planning, let's write some code!\n\nWe want to draw a circle where the mouse is, with width and height of 10. If you click \"Show Reference\", you won't see any circle function under \"Draw shapes\". However, if we remember that a circle is just an ellipse with identical width and height, we can call the `ellipse` function.\n\nAnd under \"Events\", we see variables `mouseX` and `mouseY`, which are automatically updated with the currently location of the mouse.\n\nSo let's call the `ellipse` function at position `mouseX` and `mouseY` and with width and height of 10.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/#first",
+              "prettyValue": "ellipse(mouseX, mouseY, 10, 10);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=4/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Let's change the code to only draw the circle when the mouse is pressed. In the Reference section, you'll see an event called `mouseIsPressed`.\n\nWe want to only call ellipse() if the mouse is pressed. We can do this by putting an `if` statement around our function call.\n\n```\nif(mouseIsPressed) {\n  ellipse(mouseX, mouseY, 10, 10);\n}\n```\n\nLet's do it.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function draw/ellipse()",
+              "prettyValue": "if (mouseIsPressed) {\n  ellipse(mouseX, mouseY, 10, 10);\n}"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=5/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "You'll notice that if you hold the mouse down and draw around, there is a big gap between the circles it draws. And the faster you move the mouse, the bigger the gap is. That's because we've lowered the frame rate to 5 per second, to help with testing. The frame rate is just how fast p5.js redraws the canvas and calls our `draw` function.\n\nBut now let's bump the frame rate up to 60 per second. To do this, at the beginning of the file create a function named `setup()`, which takes no parameters (that's what the empty parentheses mean). This function should only have one line in it. It should call the function `frameRate` with 60, and look like this:\n\n```\n  frameRate(60);\n```",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "function setup() {\n  frameRate(60);\n}"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=6/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=1/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "To make this be a real paint program, we need to let you change the color.\n\nLet's break down our task \"Change color\" to a \"Color Setup\" task, where we will setup a global variable to hold the current color. Also, let's add tasks to change to the three main rgb colors: red, green, blue.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=2/children",
+              "prettyValue": [
+                {
+                  "id": 10,
+                  "title": "Color Setup"
+                },
+                {
+                  "id": 7,
+                  "title": "Change to red"
+                },
+                {
+                  "id": 9,
+                  "title": "Change to green"
+                },
+                {
+                  "id": 8,
+                  "title": "Change to blue"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Before we can let the user change color, the program needs to track what the current color is. In a small JavaScript program like this, a global variable is the perfect solution.\n\nLet's break our Color Setup task into two parts: declaring a global variable, and using it.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=10/children",
+              "prettyValue": [
+                {
+                  "id": 11,
+                  "title": "Declare global variable"
+                },
+                {
+                  "id": 12,
+                  "title": "Use global variable"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Let's declare a variable named \"paint\" at the very top of the file. And in the declaration, set its value to the string \"pink\".\n\nAs a reminder, this is what a variable declaration looks like:\n\n```\nlet variable = \"pink\";\n```",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "let paint = \"pink\";"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=11/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now we want to use that color when we draw.  If you look in the Reference, under \"Change colors\", there are a couple promising functions -- `fill` and `stroke`. `fill` sets the entire color for whatever shape you draw next, and `stroke` sets the color for just the border of whatever shape you draw next. Since we're not setting either of those right now, you can see that the default `stroke` is black and the default `fill` is white -- that's why our program is drawing white circles with a black border.\n\nTo use the color stored in our global variable `paint`, we want to call `fill` right before the call to `ellipse` in `function draw`. And as for the parameter to `fill`, let's use our variable `paint`.",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/if/#first",
+              "prettyValue": "fill(paint);"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=12/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "I think I found a problem! Our program is basically working, but if you drag a lot, you can see the black border drawn around every circle.\n\nWe should fix that -- let's file a bug.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=10/children/#last",
+              "prettyValue": {
+                "id": 13,
+                "title": "Fix border"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "In graphics terminology, the border around a shape is called the stroke. If we look at the Reference, under \"Change colors\" we see `noStroke`. If we call this function, then shapes we draw will not have any border around them.\n\nSo let's get rid of the border. We want to call `noStroke()` right before we call `ellipse`.\n\n",
+      "delta": [
+        {
+          "filename": "sketch.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/function draw/if/#after fill()",
+              "prettyValue": "noStroke();"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=13/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=10/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "To let the user set the color, we can make a button. We can make a button for each color we'll support.\n\nWe will write a little html to make the button. Let's click on file `index.html`. You can see our current html is really simple. Its body (the part between `<body>` and `</body>`) only contains one item, a `<div/>` -- this is where our canvas is.\n\nWe want to add a button after the `<body>` tag and before the `<div`. The line we want to add will look like:\n\n```\n<button>Color</button>\n```\n\nThis is the basics of html -- `button` is a tag, `<button>` starts the element, `</button>` ends the element, and the text in the middle is the text we will display on the button. Remember to put Red for the Color.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/#first",
+              "prettyValue": "<button>Red</button>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "We made a button, but it does nothing when you click it.\n\nWe want to add an `onclick` event to it. In `html`, elements (like `button`) can have attributes with values.  This is the old-school way to add behavior to html programs, but it works in all browsers.\n\nThis is what we want to change our button to:\n\n```\n<button onclick=\"paint='red'\">Red</button>\n```\n\nAbove, we added attribute `onclick` to element `button`. When you click the button, the code inside the double-quotes will be run: `paint='red'`.\n\nNow let's add `onclick` to our button.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/button/attribs/onclick",
+              "prettyValue": "paint='red'"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=7/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Great, our Red button is working. When you click it, you draw red.\n\nNow let's add a green button. Let's add it after our Red button. The new button should be the same as the red button, but the title should be called \"Green\", and the assignment should be `paint='green'`.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/#after button",
+              "prettyValue": "<button onclick=\"paint='green'\">Green</button>"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=9/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "We have one more button to add, blue.\n\nLet's add it after the Green button. The new button should be the same as the red and green buttons, but the title should be called \"Blue\", and the assignment should be `paint='blue'`.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/#after button x2",
+              "prettyValue": "<button onclick=\"paint='blue'\">Blue</button>"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=8/done",
+              "prettyValue": "T"
+            },
+            {
+              "op": "add",
+              "path": "/id=2/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now let's add a button to save our picture. Luckily, saving is really easy in p5.js. If we look at the Reference, under \"Environment\" we'll see the function `save()`. It's a really simple function, that takes no parameters and saves whatever is on the canvas to a file.\n\nAll we have to do is make a button which calls the `save()` function. How easy is that? Let's add the button after our Blue button.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/body/#after button x3",
+              "prettyValue": "<button onclick=\"save()\">Save</button>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "We finished our Paint program! We wrote some html, a couple JavaScript functions, and learned some more parts of the p5.js library.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=3/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "template": "p5js",
+  "created_date": "2017-05-19T22:33:42.943250",
+  "owner": "christian.simms@gmail.com"
+}

@@ -1,0 +1,10 @@
+[
+    {
+        "contents": "<!DOCTYPE html>\n<html>\n  <head>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.5/p5.min.js\"></script>\n    <script src=\"sketch.js\"></script>\n    <style>canvas { border:1px solid black; }</style>\n  </head>\n  <body>\n    <div id=\"canvasContainer\"></div>\n  </body>\n</html>\n", 
+        "name": "index.html"
+    }, 
+    {
+        "contents": "function draw() {\n}\n", 
+        "name": "sketch.js"
+    }
+]

@@ -1,0 +1,33 @@
+<h2>Remote Projects</h2>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Version</th>
+    <th>Created / Updated</th>
+    <th>Steps</th>
+    <th>Size</th>
+    <th>Template</th>
+    <th>Description</th>
+    <th>Remote Id</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let project of remoteProjects">
+    <td><a routerLink="/admin/remote_author/{{project.title}}">{{project.title}}</a></td>
+    <td>{{project.version}}</td>
+    <td>{{project.created_date | date:'short'}}
+      <br/>
+      {{project.updated_date | date:'short'}}
+    </td>
+    <td>{{project.steps.length}}</td>
+    <td>{{showStepsInfo(project.steps)}}</td>
+    <td>{{project.template}}</td>
+    <td>{{project.description}}</td>
+    <td>{{project.id}}</td>
+    <td>
+    </td>
+  </tr>
+  </tbody>
+</table>

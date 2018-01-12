@@ -1,0 +1,97 @@
+<div class="ref-border" *ngIf="project.template==='p5js'">
+  <div class="row">
+    <div class="col-md-12">
+
+      <h4>Reference for p5.js</h4>
+      <div class="pull-left">
+        <p class="fixed-width">
+          Draw shapes:
+        </p>
+        <ul>
+          <li>ellipse(x, y, w, h)</li>
+          <li>line(x1, y1, x2, y2)</li>
+          <li>rect(x, y, w, h)</li>
+        </ul>
+      </div>
+
+      <div class="pull-left">
+        <p class="fixed-width">
+          Change colors:
+        </p>
+        <ul>
+          <li>background(color)</li>
+          <li>fill(color)</li>
+          <li>noFill()</li>
+          <li>stroke(color)</li>
+          <li>noStroke()</li>
+        </ul>
+      </div>
+
+      <div class="pull-left">
+        <p class="fixed-width">
+          Events:
+        </p>
+        <ul>
+          <li>mouseX</li>
+          <li>mouseY</li>
+          <li>mouseIsPressed</li>
+        </ul>
+      </div>
+
+      <div class="pull-left">
+        <p class="fixed-width">
+          Environment:
+        </p>
+        <ul>
+          <li>width</li>
+          <li>height</li>
+          <li>frameRate(fps)</li>
+          <li>save()</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      To see the full set of docs, go to the <a href="http://p5js.org/reference/" target="_blank">p5.js website</a>.
+    </div>
+  </div>
+</div>
+
+<div class="ref-border" *ngIf="project.template!=='p5js'">
+  <div class="row">
+    <div class="col-md-12">
+
+      <h4>Reference for JavaScript</h4>
+      <div class="pull-left">
+        <p class="fixed-width">
+          Built-in:
+        </p>
+        <ul>
+          <li>console.log(val) - print</li>
+          <li>parseInt(str) - convert string to int</li>
+        </ul>
+      </div>
+      <div class="pull-left">
+        <p class="fixed-width">
+          Declare variable:
+        </p>
+        <ul>
+          <li>let x = 1;</li>
+          <li>let a = [1, 2];</li>
+          <li>let d = {{ '{' }}a: 1, b: 2};</li>
+        </ul>
+      </div>
+      <div class="pull-left">
+        <p class="fixed-width">
+          Function:
+        </p>
+        <ul>
+          <li>function f(x) {{ '{' }}<br/>return x;<br/>}</li>
+          <li>f(1);</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

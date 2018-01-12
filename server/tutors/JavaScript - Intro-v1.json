@@ -1,0 +1,246 @@
+{
+  "template": "blank",
+  "title": "JavaScript - Intro",
+  "description": "Gentle introduction to JavaScript and using GoSkillTree",
+  "steps": [
+    {
+      "description": "",
+      "file_system": [
+        {
+          "contents": "<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>\n<script src=\"app.js\"></script>\n</body>\n</html>\n",
+          "name": "index.html"
+        },
+        {
+          "contents": "",
+          "name": "app.js"
+        }
+      ]
+    },
+    {
+      "description": "Around here, everything is a project. In the current project, we will run through the basics of JavaScript -- printing, declaring a variable, making a function.\n\nRight next to us is a little text editor -- you can see two files: index.html and app.js. The current file, app.js, is empty at the moment. I'll tell you when to type there - but not yet!\n\nBelow is the Project Plan -- currently empty. I will update it as we go. In fact, why don't you click the button \"Update Project Plan\" right now.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add_file",
+              "path": "",
+              "prettyValue": [
+                {
+                  "id": 1,
+                  "title": "Hello, World"
+                },
+                {
+                  "id": 2,
+                  "title": "Print a Number"
+                },
+                {
+                  "id": 5,
+                  "title": "Make a Variable"
+                },
+                {
+                  "id": 3,
+                  "title": "Square It"
+                },
+                {
+                  "id": 4,
+                  "title": "Make a Function"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Traditionally, when you're learning a new programming language, your first program prints \"hello world\". Let's do this in JavaScript.\n\nTo print in JavaScript, you call a function with the slightly odd name `console.log`. Whatever parameters you pass it, it will print. For instance, here's how you print the string \"Hello\":\n\n  console.log(\"Hello\");\n\nAnd here's how you print the string \"Hi\":\n\n  console.log(\"Hi\");\n\nNow, I want you to print \"Hi\" by typing the above line into the text editor on the right.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "console.log(\"Hi\");"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=1/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "JavaScript only has a few types. One type is a string, like you just saw -- \"Hello\", \"Hi\", etc. Another type is a number, like 5, 42, etc. Remember -- there are **no quotes** around a number, but there are around a string.\n\nNow let's print a number. After you print \"Hi\", can you print the number 42?\n\nIf you need help, click the Help button. It will show you a hint for what to do. And if that's not enough, you can click the button Another Hint to get an even more specific hint. That also let's you: click Type For Me if you're stuck, or click Reset This Step to clear out your changes on **just** this step.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=2/done",
+              "prettyValue": "T"
+            }
+          ]
+        },
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#last",
+              "prettyValue": "console.log(42);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "So far, we've seen values, like strings (\"Hi\") and numbers (42).\n\nWe can also make variables which contain values. Here's a quick example of declaring a variable and printing its value:\n\n```\n  let x = 5;\n  console.log(x);\n```\n\nThe statement `let` above creates a variable named `x` and gives it the value 5.\n\nNow, at the end of the file, let's add a new line declaring a variable named `x` and give it the value 5.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#last",
+              "prettyValue": "let x = 5;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now let's print the variable, after its declaration.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=5/done",
+              "prettyValue": "T"
+            }
+          ]
+        },
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#last",
+              "prettyValue": "console.log(x);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "It's really easy to do math in JavaScript, your basic math operations are builtin: + (addition), - (substraction), * (multiplication) and / (division). Here's some code which creates a variable `y` and then squares it (multiplies it by itself):\n\n```\nlet y = 4;\ny = y * y;\n```\n\nNow, let's square our variable `x`.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#after let x",
+              "prettyValue": "x = x * x;"
+            }
+          ]
+        },
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=3/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "After you've written a number of lines of code, you want to organize them. A function lets you organize code -- it lets you put together a collection of code. Here's an example function which doubles its parameter:\n\n```\nfunction double(x) {\n  return x * 2;\n}\n```\n\nNow let's create a simple function called \"square\". Let's put it at the top of the file. It will take a parameter `x`. To start out, make it just return its parameter `x`. It's OK that it's not actually doing its job yet, we'll fix that shortly.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#first",
+              "prettyValue": "function square(x) {\n  return x;\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now let's make our function do what its name says -- square its parameter.\n\nAll we have to do is change one line --  the return statement inside our new function. It's currently returning `x`, but that's not right. Try to fix it, and use the help below if you need to.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/function square/return",
+              "prettyValue": "return x * x;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "We think that we wrote a function that squares a number, but we need to test it. For a simple function like this, it might not seem important to test it. But it's good to get in the habit of testing our work.\n\nAt the end of the file, let's declare a variable `y` and set its value to the square of the number 111.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#last",
+              "prettyValue": "let y = square(111);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Now we need to print our value `y`, to see if it's really calculating the square of 111.\n\nAfter the variable `y` is declared, let's print it.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/#last",
+              "prettyValue": "console.log(y);"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Excellent, we've successfully tested our function, now we can see that the square of 111 is a palindrome (same forwards and backwards).\n\nAnd you made it through your first project! We hope you learned a little how this learning sytem works, and perhaps a few things about JavaScript.\n\nWhen you click the Update Project Plan button below, this project is marked complete and you can go to the Home page to start another project.",
+      "delta": [
+        {
+          "filename": "db/todo.json",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/id=4/done",
+              "prettyValue": "T"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

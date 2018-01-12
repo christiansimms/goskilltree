@@ -1,0 +1,209 @@
+<div *ngIf="! authService.isLoggedIn()" class="text-center">
+  <h1><a routerLink="/login">Login to Start Learning</a></h1>
+</div>
+
+
+<div *ngIf="currentView==='TABLEVIEW'">
+  <div *ngIf="playProjects?.length > 0">
+    <h2>Projects You've Started</h2>
+    <table class="table" *ngIf="playProjects?.length > 0">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Progress</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let project of playProjects">
+        <td>{{project.title}}</td>
+        <td>{{project.description}}</td>
+        <td>
+          <div *ngIf="project.current_step <= project.total_steps">{{project.current_step}} / {{project.total_steps}}
+          </div>
+          <div *ngIf="project.current_step > project.total_steps">Completed All {{project.total_steps}} Steps</div>
+        </td>
+        <td>
+          <div *ngIf="authService.isLoggedIn()">
+            <button *ngIf="project.current_step <= project.total_steps" type="button" class="btn btn-default"
+                    (click)="resumeRemoteProject(project)">Resume
+            </button>
+            <button *ngIf="project.current_step > project.total_steps" type="button" class="btn btn-default"
+                    (click)="resumeRemoteProject(project)">Review
+            </button>
+
+            <!--<button type="button" class="btn btn-default" (click)="restartProject(project)">Restart</button>-->
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div *ngIf="playProjects?.length === 0">
+      <em>Start your first project below.</em>
+    </div>
+  </div>
+
+  <div *ngIf="authorProjectsStartable?.length > 0">
+    <h2>Projects You Can Start</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let project of authorProjectsStartable">
+        <td>{{project.title}}</td>
+        <td>{{project.description}}</td>
+        <td>
+          <div *ngIf="authService.isLoggedIn()">
+            <button type="button" class="btn btn-default" (click)="playRemoteProject(project)">Play Project</button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="authorProjectsNotStartable?.length > 0">
+    <h2>Projects Not Ready for You Yet</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let project of authorProjectsNotStartable">
+        <td>{{project.title}}</td>
+        <td>{{project.description}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top: 1.5em">
+    <button type="button" class="btn btn-default btn-xs" (click)="switchView('TREEVIEW')">
+      View as Tree
+    </button>
+  </div>
+
+</div>
+<div *ngIf="currentView==='TREEVIEW' && authorProjects">
+  <app-project-tree #projectTreeId [playProjects]="playProjects" [authorProjects]="authorProjects"
+                    (projectSelected)="projectWasSelected($event)"></app-project-tree>
+  <div style="margin-top: 0.5em">
+    <button type="button" class="btn btn-default btn-xs" (click)="redrawProjectTree()">
+      Redraw Project Tree
+    </button>
+    <button type="button" class="btn btn-default btn-xs" (click)="switchView('TABLEVIEW')">
+      View as Table
+    </button>
+  </div>
+</div>
+
+
+<div id="projectModalPopup" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="Show Info about Selected Project">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{{selectedProject?.project.title}}</h4>
+      </div>
+      <div class="modal-body">
+
+        <div *ngIf="selectedProject?.kind==='PLAYPROJECT'">
+          <div>
+            Description: {{selectedProject.project.description}}
+          </div>
+          <div>
+            Progress:
+            <span *ngIf="selectedProject.project.current_step <= selectedProject.project.total_steps">
+                  {{selectedProject.project.current_step}} / {{selectedProject.project.total_steps}}
+                </span>
+            <span
+              *ngIf="selectedProject.project.current_step > selectedProject.project.total_steps">Completed All {{selectedProject.project.total_steps}} Steps</span>
+          </div>
+          <p>&nbsp;</p>
+          <div>
+            <button *ngIf="selectedProject.project.current_step <= selectedProject.project.total_steps" type="button"
+                    class="btn btn-default"
+                    (click)="resumeRemoteProject(selectedProject.project)">Resume
+            </button>
+            <button *ngIf="selectedProject.project.current_step > selectedProject.project.total_steps" type="button"
+                    class="btn btn-default"
+                    (click)="resumeRemoteProject(selectedProject.project)">Review
+            </button>
+            <!-- button type="button" class="btn btn-default" (click)="restartProject(selectedProject.project)">
+              Restart  disabled until I'm ready -- TODOfuture
+            </button -->
+          </div>
+        </div>
+
+        <div *ngIf="selectedProject?.kind==='AUTHORPROJECT'">
+          <div>
+            Description: {{selectedProject.project.description}}
+          </div>
+          <div>
+            Progress: Not Started Yet
+          </div>
+
+          <p>&nbsp;</p>
+          <div *ngIf="selectedProject.canStart">
+            <button type="button" class="btn btn-default" (click)="playRemoteProject(selectedProject.project)">
+              Play Project
+            </button>
+          </div>
+          <div *ngIf="!selectedProject.canStart">
+            <em>You can't start this project yet because you must complete its dependencies first.</em>
+          </div>
+
+        </div>
+
+        <div *ngIf="selectedProject?.kind==='DNE'">
+          <div *ngIf="!showVoteForm">
+            <p>
+              <em>This project is not yet available.</em>
+            </p>
+            <button type="button" class="btn btn-default" (click)="showVote()">
+              Please make it!
+            </button>
+          </div>
+          <div *ngIf="showVoteForm">
+
+            <form>
+              <div>
+                <b>Send Message</b>: I want you to make project: <b>{{selectedProject.project.title}}</b>
+              </div>
+              <div class="form-group">
+                <!-- The default label style is bold, but on this tiny form, that looks weird, so override here. -->
+                <label for="voteText" style="font-weight: normal">
+                  Anything else you want to add?
+                </label>
+                <textarea class="form-control" rows="5" id="voteText"
+                          [(ngModel)]="voteForm.messageText" name="voteText"
+                          required></textarea>
+              </div>
+
+              <button type="button" class="btn btn-primary" (click)="submitVote()">
+                Submit Vote
+              </button>
+              <button type="button" class="btn btn-default" (click)="cancelVote()">
+                Cancel
+              </button>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

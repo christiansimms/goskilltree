@@ -1,0 +1,353 @@
+Basics in JavaScript
+	Computers are literal
+Html
+	structure
+		it's all a tree/outline
+	tags
+		intro: doctype/html/head/title/body
+		headers: h1/h2/h3/h4/h5/h6
+		p
+		br
+		lists: ul/ol/li
+		hr
+		simple formatting: b/i/u
+		formatting w/semantics: strong/em
+		a
+		img
+		comments
+		table
+		blocks: div/span
+		script
+		input
+	attributes
+		class
+		style
+	responsive
+	entities
+		nbsp
+		amp
+		lt/gt
+	forms
+	html5 tags
+		articleheader/footer/...
+Vue.js
+	is-a SPA
+	concepts
+		declarative rendering
+			display javascript values in html, like {{var}}
+			var exposed thru: Vue({...var:{...}})
+		v-if
+		v-for
+		v-on:event
+		v-model
+			two-way binding for forms
+		components
+		components w/props
+			v-bind to send input
+	Component
+		Displays a chunk of html
+		It can be big, and be the whole page.
+		Or small, and just be one tiny html element.
+		In the end, it's just:
+			Vue.component('tag-name', {
+				template: 'abc',
+				data: function() {
+				  return { instance-name: value };
+				},
+				methods: {
+					method1: function() {
+					}
+				}
+			}
+	Create a component:
+		pick name
+		html:
+			add under body:
+				<template id="<name>-template">
+		js:
+			Vue.component("<name>", {
+			  template: "#<name>-template",
+			}
+	Add input to component:
+		select component
+		pick a name
+		find property in Vue.component: props: ["name"],
+		add to list: props: ["name"],
+	Add output to component:
+		select component
+		select method
+		pick event name
+		add code:
+			this.$emit('<event-name>', vars...);
+	Parts of a component:
+		data: function returning dict of initial values
+		props: list of parameters that component receives
+		computed: names of functions to compute expensive values, are smartly-cached
+		watch: functions called whenever a specific value changes
+		methods: functions you can call on the component
+	Reference element directly:
+		ref:
+			ref="name"
+			access like:  this.$refs.name
+			-> watch out, not available until rendered
+		this.$el  # the element
+			-> same lifecycle issue as ref, but at least doesn't need a name
+vue-cli
+	Create Project
+		vue init webpack project-name
+	Run Project
+		npm run dev
+	Create non-page component
+		create file src/components/comp.vue
+		import and use it in whichever file you like
+	Include bootstrap 4:
+		npm install bootstrap@4.0.0-beta.2 --save
+		main.js: add: require('../node_modules/bootstrap/dist/css/bootstrap.min.css')
+angular2: Angular 2
+	intro: Introduction
+		Angular2 is a JavaScript / TypeScript framework for building SPA's.
+	app: Application
+		An Angular2 app is a bundle of HTML, JavaScript and CSS which run in the browser.
+	Core Concepts
+		modules
+		components
+		directives
+		services
+		templates
+	Component
+		Displays a chunk of html.
+		It can be big, and be the whole page.
+		Or small, and just be one tiny html element.
+		In the end, it's just a class marked by decorator @Component
+	env: Environment
+		Development runs under Node.js
+	service: Service
+		A class which is marked by the decorator @Injectable, so that its methods are available elsewhere.
+	howto-create-app: Create App
+		0. Install angular-cli
+		NO: 1. ng new app-name
+		1. Create new directory
+		2. Go into it and run: ng init --name=<name>
+	howto-add-page: Add Page
+		Steps to add static page:
+		0. Pick new-name.
+		1. Create shell:
+			# With everything:
+			ng generate component new-name
+			# Skip all extra files:
+			ng generate component --spec=false --inline-style=true --inline-template=true common/NewPage
+		2. Confirm it's included in app module:
+			src/app/app.module.ts
+		3. Add to routing by editing:
+			src/app/app.routing.ts
+	howto-add-reusable-display-component:
+		Steps to create reusable display component:
+		0. Pick new-name.
+		1. Create shell:
+			ng generate component new-name.
+		2. Define input by declaring member variable:
+			@Input() hero: Hero;
+			// which is shortcut for:
+			@Input('hero') hero: Hero;
+		3. Use it like:
+			<app-show-model-node [node]="model"></app-show-model-node>
+	howto-use-component-with-async-data:
+		PROB: Your component will be invoked multiple times if its input is async,
+			first time with null or undefined, second time with the data.
+		SOLN: Add <div *ngIf="data"> around your <component input="data">
+	howto-add-routing: Add Routing
+		Go to app.routing.ts
+		Add entry like:
+			{
+				path: '_admin',
+				component: ModuleComponent
+			}
+	howto-make-service: Make service to call Ajax
+		0. Need ajax url to hit.
+		1. Define data structure to hold ajax data.
+			ng generate class Module
+		1b. Add fields to data structure, such as number, string, etc.
+		2. Define service class which will load data from Ajax into new data class.
+			ng generate service Data
+			or w/o tests:
+			ng generate service --spec=false Data
+		2a. Add to module providers list. Go to app.module.ts and add class to providers list.
+		2b. Let the class call http, add this to constructor:
+			private http: Http
+		2c. Add method to do the work, an example:
+			  getAllPets(): Promise<Pet[]> {
+				return this.http
+				  .get('http://127.0.0.1:6565/api/data/pet')
+				  .toPromise()
+				  .then(response => response.json() as Pet[])
+				  .catch(this.handleError);
+			  }
+	howto-load-data-with-ajax: Load Data with Ajax
+		0. Go to component class.
+		1. Inject service to call in constructor.
+		2. Inject ActivatedRoute to read params.
+		3. Declare member variable to hold data, and what HTML template will use.
+		4. In ngOnInit(), call ajax service async and store result in member variable.
+	howto-show-data-from-ajax: Show Data from Ajax
+		1. Load Data with Ajax
+		2. Edit HTML template:
+			a. Show field like:
+				Name: {{obj.name}}
+			b. Protect it by surrounding with:
+				<div *ngIf="obj">
+	howto-have-dynamic-css-class
+		1. [ngClass]="{'my-class': isClassVisible }"
+		2. declare / set boolean variable isClassVisible
+ECMAScript
+	Decorator
+		Add metadata to a class or function.
+web: Web
+	AJAX
+		Async JavaScript and XML. Browser technology to send/receive data w/o entire page refresh.
+	REST
+		Way of structuring web API
+	spa: SPA (Single Page Application)
+		An SPA is a web application where navigating between pages does not cause the browser to reload a new page. Instead, just the new pages contents are loaded.
+	http: HTTP
+		Protocol that browsers talk to servers for web pages.
+		Version 1.0 is really old.
+		Version 1.1 is popular, and has great performance improvements like multiple requests/responses on one TCP/IP connection.
+		Version 2 is coming, with more performance improvements.
+DB General
+	Design Schema
+		Make a table for every major entity.
+		If one entity always goes with another entity, make an fk between them.
+		If one entity has 0 or more of another entity, make an fk.
+		If many to many then create a separate joiner table.
+webapp: Web App
+	How to Make Initial Full Stack App
+		Make a Database
+			Prereq: Pick Database Platform
+			Design Schema
+			Write DDL
+		Make a REST App Server
+			Prereq: Pick App Server
+			Create New App
+			Add REST API to GET
+			Make REST API hit database
+		Make Front-end Client
+			Prereq: Pick Front-End Framework
+			Create New App
+			Make service to call REST API
+			Display Data
+	How to Fill In Full Stack App
+		Prereq: Full Stack App
+		Prereq: Collect Pages to Display
+		For each page:
+			Add Page
+			Show Data from Ajax
+	How to Make Complete Full Stack App
+		How to Make Initial Full Stack App
+		How to Fill In Full Stack App
+python-pyramid: Python Pyramid
+	How to Make Pyramid App
+		Ensure python3 installed
+		Create virtualenv
+		Install Pyramid library
+		Create Seed Project
+			pcreate --list  # show template choices
+			pcreate -s alchemy <name>
+		Get ready for development
+			mv <name> server
+			cd server
+		Install needed libraries:
+			pip install -e .
+			pip install -e ".[testing]"
+		Run tests
+			py.test
+		See coverage
+			py.test --cov -q
+python-django: Python Django
+	App
+		web application that does something
+	Project
+		contains one more more App's
+	How to Make Django Project
+		Ensure python3 installed
+			type python3
+		Create virtualenv
+			python3 -m venv ~/virtualenvs/django
+			. ~/virtualenvs/django/bin/activate
+			type python3
+		Install Django library
+			pip install Django
+			TEST: python -m django --version
+				says: 1.10.2
+		Create Seed Project
+			cd <directory>
+			django-admin startproject <name>
+			TEST:
+				cd <name>
+				python manage.py runserver
+				# go to: http://127.0.0.1:8000/
+	How to Make Django App
+		Go to Existing Django Project
+			cd <project>
+			TEST: directory has file: manage.py
+		Create empty Django App:
+			python manage.py startapp <name>
+			TEST: Created directory <name>, with <name>/models.py
+appengine-python:
+	How to Include Library in Appengine
+		If built-in, add it to app.yaml
+			https://cloud.google.com/appengine/docs/python/tools/built-in-libraries-27
+		webapp2 is popular for simple web serving
+docker: Docker
+	Docker
+		Virtualization technology to run programs in a sandboxed environment.
+		Much faster than technology like VMWare and VirtualBox.
+	Image
+		A frozen filesystem, ready to run
+	Container
+		A running image.
+	How to Install
+		Install docker software
+		docker-machine ls
+		docker-machine create --driver virtualbox default
+		eval "$(docker-machine env default)"
+	How to Make Django REST App
+		Prereq: Docker running
+		Prereq: Dockerfile which installs Django
+Kubernetes
+	Node
+		A worker machine, either a real one or a VM, running Kubernetes support software.
+		Contains 0 or more pods.
+	Pod
+		Have unique IP address, but it's private to the cluster.
+General Programming
+	Ways of Thinking - Modes of Thought
+		// Declarative - e.g., HTML, SQL  -- too confusing, it's more a style
+		Imperative - e.g., most mainstream like JavaScript
+		Grammar / Production rules
+		Object-oriented - e.g., Java
+		Outline/Markup - e.g., HTML
+		Event-driven
+		Async - e.g., Python Twisted
+		State Machines
+		3d graphics - tree of objects, with math matrix transforms
+		Logic - e.g., Prolog
+		Functional - e.g., Haskell
+	Declarative Programming
+		You say what you want, not how to do it.
+		lots: Functional, Logic, Markup
+	Imperative Programming
+		Unlike declarative, you say how to do what you want.
+		Three main control structures:
+			Sequence: follow a recipe line by line
+			Selection: If-Then / Switch / Case
+			Repetition: While Loop, For Loop
+		Variables - for intermediate values
+		Data Structures - to organize complex data/variables
+		Call Functions
+		Define Functions
+			Organize code
+			Allow for Recursion
+	Finite State Machine
+		Given a set of states, with transitions allowed between them
+		Same as a flowchart, same as a workflow diagram
+		If you have 2 states, just use a boolean variable

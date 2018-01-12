@@ -1,0 +1,94 @@
+{
+  "title": "Vue.js - Intro",
+  "description": "Show dynamic values using Vue.js",
+  "template": "vuejs",
+  "tags": [
+    "javascript",
+    "intro"
+  ],
+  "steps": [
+    {
+      "description": "",
+      "file_system": [
+        {
+          "contents": "<!DOCTYPE html>\n<html>\n<head>\n    <script src=\"https://unpkg.com/vue/dist/vue.js\"></script>\n</head>\n<body>\n<div id=\"app\"></div>\n<script src=\"app.js\"></script>\n</body>\n</html>\n",
+          "name": "index.html"
+        },
+        {
+          "contents": "let vm = new Vue({\n    el: \"#app\"\n});\n",
+          "name": "app.js"
+        }
+      ]
+    },
+    {
+      "description": "Say Hello.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/div#app/#first",
+              "prettyValue": "Hello"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Make it bold.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "replace",
+              "path": "/div#app/string",
+              "prettyValue": "<h1>Hello</h1>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Show a computed value.",
+      "delta": [
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/div#app/#last",
+              "prettyValue": "{{4*4}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Show value from javascript.",
+      "delta": [
+        {
+          "filename": "app.js",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/let vm/init/arguments[0]/properties/#last",
+              "prettyValue": "data: {\n  message: \"Wow\"\n}"
+            }
+          ]
+        },
+        {
+          "filename": "index.html",
+          "diffs": [
+            {
+              "op": "add",
+              "path": "/div#app/#last",
+              "prettyValue": "<div>{{message}}</div>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
